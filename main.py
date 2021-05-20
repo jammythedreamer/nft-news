@@ -6,11 +6,6 @@ from bs4 import BeautifulSoup
 
 if __name__ == '__main__':
 
-    json_slack_path = "./token.json"
-
-    with open(json_slack_path, 'r') as json_file:
-        slack_dick = json.load(json_file)
-
     slack_token = os.environ.get('SLACK_BOT_TOKEN')
 
     channelName = "nft-news"
