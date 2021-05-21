@@ -6,14 +6,17 @@ from bs4 import BeautifulSoup
 
 if __name__ == '__main__':
 
-    slack_token = os.environ.get('SLACK_BOT_TOKEN')
+    # slack_token = os.environ.get('SLACK_BOT_TOKEN')
+    slack_token = ""
 
     channelName = "nft-news"
 
     channel_id = "C022LMY3EQL"
 
     double_quote = "\""
-    last_idx = "-1"
+
+    json_slack_path = "./data.json"
+
     while True:
         req = requests.get("https://www.coindeskkorea.com/news/articleList.html?sc_area=A&view_type=sm&sc_word=nft&sc_order_by=E&sc_sdate=&sc_edate=")
         html = req.text
@@ -21,11 +24,20 @@ if __name__ == '__main__':
         posts = soup.find("section", {"class": "article-list-content type-sm text-left"})
         post_idx = str(posts.find("div", {"class": "list-titles"}).a).split("idxno=")[1].split(double_quote)[0]
 
+        with open(json_slack_path, 'r') as json_file:
+            data_dick = json.load(json_file)
+        last_idx = data_dick["LAST_IDX"]
+
         if last_idx == post_idx:
             continue
 
         last_idx = post_idx
-        
+
+        data_dick["LAST_IDX"] = last_idx
+        with open(json_slack_path, 'w') as json_file:
+            data_string = json.dumps(data_dick)
+            json_file.write(data_string)
+
         message = [
             {
                     "type": "section",
@@ -41,7 +53,7 @@ if __name__ == '__main__':
                             "emoji": True
                         },
                         "value": "click_me_123",
-                        "url": f'https://coindeskorea.com{str(posts.find("div", {"class": "list-titles"}).a).split(double_quote)[1]}',
+                        "url": f'https://coindeskkorea.com{str(posts.find("div", {"class": "list-titles"}).a).split(double_quote)[1]}',
                         "action_id": "button-action"
                     }
             }
@@ -55,5 +67,5 @@ if __name__ == '__main__':
         }
 
         URL = 'https://slack.com/api/chat.postMessage'
-        res = requests.post(URL, data= data)
+        # res = requests.post(URL, data= data)
         time.sleep(60)
