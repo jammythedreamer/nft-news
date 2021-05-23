@@ -67,5 +67,5 @@ if __name__ == '__main__':
         }
 
         URL = 'https://slack.com/api/chat.postMessage'
-        # res = requests.post(URL, data= data)
+        res = requests.post(URL, data= data)
         time.sleep(60)
