@@ -6,8 +6,7 @@ from bs4 import BeautifulSoup
 
 if __name__ == '__main__':
 
-    # slack_token = os.environ.get('SLACK_BOT_TOKEN')
-    slack_token = ""
+    slack_token = os.environ.get('SLACK_BOT_TOKEN')
 
     channelName = "nft-news"
 
