@@ -28,6 +28,7 @@ if __name__ == '__main__':
         last_idx = data_dick["LAST_IDX"]
 
         if last_idx == post_idx:
+            time.sleep(60)
             continue
 
         last_idx = post_idx
@@ -67,4 +68,4 @@ if __name__ == '__main__':
 
         URL = 'https://slack.com/api/chat.postMessage'
         res = requests.post(URL, data= data)
-        time.sleep(60)
+        time.sleep(10)
